@@ -11,15 +11,18 @@ namespace {
 }
 Game::Game() {
     SDL_Init(SDL_INIT_EVERYTHING);
+    SDL_ShowCursor(SDL_DISABLE);
     screen_ = SDL_SetVideoMode(kScreenWidth, kScreenHeight, kBPP, SDL_FULLSCREEN);
     eventLoop();
 }
 Game::~Game() {
+    SDL_FreeSurface(screen_);
     SDL_Quit();
 }
 
 void Game::eventLoop() {
     SDL_Event event;
+
     bool running = true;
     while (running) {
         const int start_time = SDL_GetTicks();
