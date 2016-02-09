@@ -2,25 +2,23 @@
 
 #include <SDL/SDL.h>
 
-namespace {
-    const int kScreenWidth = 640;
-    const int kScreenHeight = 480;
-    const int kBPP = 32;
-    const int kFPS = 60;
+#include "graphics.h"
 
+namespace {
+    const int kFPS = 60;
 }
+
 Game::Game() {
     SDL_Init(SDL_INIT_EVERYTHING);
     SDL_ShowCursor(SDL_DISABLE);
-    screen_ = SDL_SetVideoMode(kScreenWidth, kScreenHeight, kBPP, SDL_FULLSCREEN);
     eventLoop();
 }
 Game::~Game() {
-    SDL_FreeSurface(screen_);
     SDL_Quit();
 }
 
 void Game::eventLoop() {
+    Graphics graphics;
     SDL_Event event;
 
     bool running = true;
