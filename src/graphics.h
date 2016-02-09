@@ -11,7 +11,8 @@ struct Graphics {
     void blitSurface(SDL_Surface* source,
                      SDL_Rect* source_rectangle,
                      SDL_Rect* destination_rectangle);
-
+    
+    void flip();
 private:
     SDL_Surface* screen_;
 };

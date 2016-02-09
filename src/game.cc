@@ -3,6 +3,7 @@
 #include <SDL/SDL.h>
 
 #include "graphics.h"
+#include "sprite.h"
 
 namespace {
     const int kFPS = 60;
@@ -21,6 +22,8 @@ void Game::eventLoop() {
     Graphics graphics;
     SDL_Event event;
 
+    sprite_.reset(new Sprite("content/MyChar.bmp", 0,0, 32, 32));
+
     bool running = true;
     while (running) {
         const int start_time = SDL_GetTicks();
@@ -36,21 +39,18 @@ void Game::eventLoop() {
             }
         }
         update();
-        draw();
+        draw(graphics);
         const int elapsed_time = SDL_GetTicks() - start_time;
         // SDL_Delay takes a Uint32. If elapsed_time longer than 1000/60 ms then you pass an underflowing number and app will hang
         if(elapsed_time < 1000/kFPS) {
             SDL_Delay(1000/kFPS - elapsed_time);
         }
     }
-    // while (running) ~ 60 Hz
-    //  Hande Input
-    //
-    //  Update() Move player, projectiles. Check collisions
-    //  draw()
 }
 
 void Game::update() {
 }
-void Game::draw() {}
-
+void Game::draw(Graphics& graphics) {
+    sprite_->draw(graphics, 320, 240);
+    graphics.flip();
+}
