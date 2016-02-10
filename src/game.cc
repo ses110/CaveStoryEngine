@@ -48,6 +48,26 @@ void Game::eventLoop() {
         if (input.wasKeyPressed(SDLK_ESCAPE)) {
             running = false;
         }
+
+        if (input.isKeyHeld(SDLK_LEFT) && input.isKeyHeld(SDLK_RIGHT)) {
+           player_->stopMoving();
+        } else if (input.isKeyHeld(SDLK_LEFT)) {
+           player_->startMovingLeft(); 
+        } else if (input.isKeyHeld(SDLK_RIGHT)) {
+            player_->startMovingRight();
+        } else {
+            player_->stopMoving();
+        }
+        /* If both left & right are pressed
+         *  stop moving
+         * else if left
+         *  startMovingLeft
+         * else if right
+         *  startMovingRight
+         * else
+         *  stop Moving
+         * */
+
         const int current_time_ms = SDL_GetTicks();
         update(current_time_ms - last_update_time);
         last_update_time = current_time_ms;
@@ -65,6 +85,7 @@ void Game::update(int elapsed_time_ms) {
     player_->update(elapsed_time_ms);
 }
 void Game::draw(Graphics& graphics) {
+    graphics.clear();
     player_->draw(graphics);
     graphics.flip();
 }

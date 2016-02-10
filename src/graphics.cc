@@ -23,6 +23,10 @@ void Graphics::blitSurface(SDL_Surface* source,
     SDL_BlitSurface(source, source_rectangle, screen_, destination_rectangle);
 }
 
+void Graphics::clear() {
+    SDL_FillRect(screen_, NULL, 0);
+}
+
 void Graphics::flip() {
     SDL_Flip(screen_);
 }
