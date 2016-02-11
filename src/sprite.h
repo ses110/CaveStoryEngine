@@ -7,11 +7,13 @@
 struct Graphics;
 
 struct Sprite{
-    Sprite(const std::string& file_path,
-            int source_x,
-            int source_y,
-            int width,
-            int height);
+    Sprite(
+        Graphics& graphics,
+        const std::string& file_path,
+        int source_x,
+        int source_y,
+        int width,
+        int height);
     virtual ~Sprite();
 
     virtual void update(int /*elapsed_time_ms*/) {}
