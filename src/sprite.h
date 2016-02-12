@@ -14,7 +14,6 @@ struct Sprite{
         int source_y,
         int width,
         int height);
-    virtual ~Sprite();
 
     virtual void update(int /*elapsed_time_ms*/) {}
     void draw(Graphics& graphics, int x, int y);
