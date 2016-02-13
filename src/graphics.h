@@ -25,6 +25,7 @@ struct Graphics {
 private:
     typedef std::map<std::string, SDL_Surface*> SpriteMap;
     SpriteMap sprite_sheets_;
+
     SDL_Surface* screen_;
 };
 
