@@ -17,6 +17,9 @@ struct Player {
     void startMovingLeft();
     void startMovingRight();
     void stopMoving();
+
+    void startJump();
+    void stopJump();
     
 private:
     enum MotionType {
@@ -36,16 +39,33 @@ private:
         MotionType motion_type;
         HorizontalFacing horizontal_facing;
     };
+
+    struct Jump {
+        Jump() : time_remaining_ms_(0), active_(false) {}
+        void reset();
+        void reactivate() { active_ = time_remaining_ms_ > 0; }
+        void deactivate() { active_ = false; }
+     private:
+        int time_remaining_ms_;
+        bool active_;
+    };
+
+
     friend bool operator<(const SpriteState& a, const SpriteState& b);
 
     void initializeSprites(Graphics& graphics);
     SpriteState getSpriteState();    
 
+    bool on_ground() const { return on_ground_; }
+
     int x_, y_;
-    float velocity_x_;
+    float velocity_x_, velocity_y_;
     float acceleration_x_;
     HorizontalFacing horizontal_facing_;
+    bool on_ground_;
+    Jump jump_;
 
     std::map<SpriteState, boost::shared_ptr<Sprite> > sprites_;
 };
+
 #endif // PLAYER_H_

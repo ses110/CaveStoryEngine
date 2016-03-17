@@ -49,6 +49,7 @@ void Game::eventLoop() {
             running = false;
         }
 
+        // Player movement
         if (input.isKeyHeld(SDLK_LEFT) && input.isKeyHeld(SDLK_RIGHT)) {
            player_->stopMoving();
         } else if (input.isKeyHeld(SDLK_LEFT)) {
@@ -58,15 +59,13 @@ void Game::eventLoop() {
         } else {
             player_->stopMoving();
         }
-        /* If both left & right are pressed
-         *  stop moving
-         * else if left
-         *  startMovingLeft
-         * else if right
-         *  startMovingRight
-         * else
-         *  stop Moving
-         * */
+
+        // Player jump
+        if (input.wasKeyPressed(SDLK_z)) {
+            player_->startJump();
+        } else if(input.wasKeyReleased(SDLK_z)) {
+            player_->stopJump();
+        }
 
         const int current_time_ms = SDL_GetTicks();
         update(current_time_ms - last_update_time);

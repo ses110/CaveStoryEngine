@@ -11,6 +11,9 @@ namespace {
 const float kSlowdownFactor = 0.8f;
 const float kWalkingAcceleration = 0.0012f; // ( pixels / ms ) / ms
 const float kMaxSpeedX = 0.325f; // pixels / ms
+
+const float kJumpSpeed = 0.325f; // pixels / ms
+const int kJumpTime = 275;
 }
 
 bool operator<(const Player::SpriteState& a, const Player::SpriteState& b) {
@@ -27,8 +30,10 @@ Player::Player(Graphics& graphics, int x, int y) :
     x_(x), 
     y_(y), 
     velocity_x_(0.0f),
+    velocity_y_(0.0f),
     acceleration_x_(0.0f),
-    horizontal_facing_(LEFT) 
+    horizontal_facing_(LEFT),
+    on_ground_(false)
 {
     initializeSprites(graphics);
 }
@@ -65,6 +70,30 @@ void Player::stopMoving() {
     acceleration_x_ = 0.0f;
 }
 
+struct jump {
+
+};
+
+void Player::startJump() {
+    if (on_ground()) {
+        jump_.reset();
+        // Give character an initial velocity up
+        velocity_y_ = -kJumpSpeed;
+
+// else if we are mid-jump
+        // Reactivate jump
+    } else if (velocity_y_ < 0.0f) {
+        jump_.reactivate();
+
+    }
+    
+}
+
+void Player::stopJump() {
+    // Deactivate jump
+    jump_.deactivate();
+}
+
 void Player::initializeSprites(Graphics& graphics) {
 
     sprites_[SpriteState(STANDING, LEFT)] = 
@@ -97,4 +126,9 @@ Player::SpriteState Player::getSpriteState() {
     return SpriteState(
         acceleration_x_ == 0.0f ? STANDING : WALKING,
         horizontal_facing_);
+}
+
+void Player::Jump::reset() {
+    time_remaining_ms_ = kJumpTime;
+    reactivate();
 }
